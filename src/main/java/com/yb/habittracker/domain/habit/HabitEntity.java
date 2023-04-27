@@ -20,8 +20,6 @@ public class HabitEntity {
     @ManyToOne
     private MemberEntity member;
     private String name;
-    private ZonedDateTime createdTime;
-    private ZonedDateTime updatedTime;
     @OneToMany(mappedBy = "habit")
     private List<RecordEntity> recordList = new ArrayList<>();
 
@@ -29,11 +27,10 @@ public class HabitEntity {
     }
 
     @Builder
-    public HabitEntity(String habitId, MemberEntity member, String name, ZonedDateTime createdTime, ZonedDateTime updatedTime) {
+    public HabitEntity(String habitId, MemberEntity member, String name) {
         this.habitId = habitId;
         this.member = member;
         this.name = name;
-        this.createdTime = createdTime;
-        this.updatedTime = updatedTime;
     }
+
 }
