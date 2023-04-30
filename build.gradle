@@ -26,6 +26,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'com.github.f4b6a3', name: 'ulid-creator', version: '5.1.0'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.7.11'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.31'
+
 }
 
 tasks.named('test') {

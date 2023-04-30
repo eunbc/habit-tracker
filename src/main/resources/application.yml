@@ -1,8 +1,9 @@
 
+# h2 test
 spring:
-#  config:
-#    activate:
-#      on-profile: test
+  config:
+    activate:
+      on-profile: test
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;MODE=MySQL;
@@ -18,9 +19,35 @@ spring:
       hibernate:
         show-sql: true
         format-sql: true
-#    show-sql: true
+    show-sql: true
 
 logging:
   level:
     org.hibernate.SQL : debug
-#    org.hibernate.type : trace
+
+---
+# local MySQL test
+spring:
+  config:
+    activate:
+      on-profile: local-mysql-test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/habit?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: Test1234!
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+#      ddl-auto: create
+    properties:
+      hibernate:
+        show-sql: true
+        format-sql: true
+    show-sql: true
+
+logging:
+  level:
+    org.hibernate.SQL : debug
