@@ -1,8 +1,13 @@
 package com.yb.habittracker.domain.habit;
 
+import com.yb.habittracker.domain.habit.dto.HabitUpdateDto;
 import com.yb.habittracker.domain.member.MemberEntity;
+import com.yb.habittracker.domain.record.RecordEntity;
+
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +15,8 @@ import java.util.List;
 
 @Getter
 @Entity
+@EqualsAndHashCode
+@Accessors(chain = true)
 public class HabitEntity {
     @Id
     private String habitId;
@@ -17,7 +24,7 @@ public class HabitEntity {
     @JoinColumn(name = "member_id")
     private MemberEntity member;
     private String name;
-    @OneToMany(mappedBy = "habit")
+    @OneToMany(mappedBy = "habit", fetch = FetchType.LAZY)
     private List<RecordEntity> recordList = new ArrayList<>();
 
     protected HabitEntity() {
@@ -30,10 +37,13 @@ public class HabitEntity {
         this.name = name;
     }
 
-    public void setMember(MemberEntity member) {
+    public HabitEntity setMember(MemberEntity member) {
         this.member = member;
+        member.getHabits().add(this);
+        return this;
     }
 
-
-
+    public void updateHabitName(HabitUpdateDto habitDto) {
+        this.name = habitDto.getName();
+    }
 }

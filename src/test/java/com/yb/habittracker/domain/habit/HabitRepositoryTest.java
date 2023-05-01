@@ -1,12 +1,14 @@
 package com.yb.habittracker.domain.habit;
 
 import com.github.f4b6a3.ulid.UlidCreator;
+import com.yb.habittracker.domain.habit.dto.HabitUpdateDto;
 import com.yb.habittracker.domain.member.MemberEntity;
 import com.yb.habittracker.domain.member.MemberRepository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.persistence.EntityManager;
 
+// @DataJpaTest
 @SpringBootTest
 // @ActiveProfiles("local-mysql-test")
 class HabitRepositoryTest {
@@ -42,7 +45,7 @@ class HabitRepositoryTest {
 
         //then
         assertThat(entity).isNotNull();
-        assertThat(entity.getName()).isEqualTo("test");
+        assertThat(entity.getName()).isEqualTo(habit.getName());
     }
 
     @Test
@@ -67,12 +70,10 @@ class HabitRepositoryTest {
 
         HabitEntity habit1 = HabitEntity.builder().habitId(UlidCreator.getUlid().toString()).name("test_habit1").build();
 		habit1.setMember(memberSave);
-        memberSave.getHabits().add(habit1);
         habitRepository.save(habit1);
 
 		HabitEntity habit2 = HabitEntity.builder().habitId(UlidCreator.getUlid().toString()).name("test_habit2").build();
         habit2.setMember(memberSave);
-        memberSave.getHabits().add(habit2);
 		habitRepository.save(habit2);
 
         //when
@@ -89,7 +90,7 @@ class HabitRepositoryTest {
         //given
         habitRepository.save(habit);
         String updated = "updated";
-        HabitEntity entityUpdate = HabitDto.builder().habitId(habit.getHabitId()).name(updated).build().toEntity();
+        HabitEntity entityUpdate = HabitUpdateDto.builder().habitId(habit.getHabitId()).name(updated).build().toEntity();
 
         //when
         HabitEntity save = habitRepository.save(entityUpdate);
